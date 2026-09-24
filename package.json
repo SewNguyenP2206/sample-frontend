@@ -1,0 +1,10 @@
+{
+  "name": "gke-gateway-console",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "python3 server.py",
+    "start": "python3 server.py"
+  }
+}

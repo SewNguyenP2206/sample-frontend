@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111513" />
+    <title>Products CRUD Tester</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script>
+      const currentOrigin = window.location.origin || "https://www.sewtech.site";
+      window.COGNITO_CONFIG = {
+        authority: "https://cognito-idp.us-west-2.amazonaws.com/us-west-2_l4HAq4bP6",
+        domain: "https://us-west-2l4haq4bp6.auth.us-west-2.amazoncognito.com",
+        clientId: "5cj02fqosneon0o57h43fhae61",
+        redirectUri: `${currentOrigin}/callback`,
+        logoutUri: currentOrigin,
+        responseType: "code",
+        scope: "openid"
+      };
+
+      // app.js runs its own PKCE authorization-code flow against the Cognito
+      // Hosted UI (no client-side library needed). The redirect only happens
+      // when the user clicks "Sign in" in the topbar - it is not automatic.
+    </script>
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Products CRUD Tester home">
+          <span class="brand-mark"><i></i><i></i><i></i></span>
+          <span>CRUD <b>TESTER</b></span>
+        </a>
+        <div class="topbar-meta"><span class="pulse"></span><span>PRODUCTS API CONSOLE</span></div>
+        <div class="topbar-actions">
+          <span id="auth-status" class="auth-status">SIGNED OUT</span>
+          <button id="login-button" class="health-button" type="button">SIGN IN</button>
+          <button id="logout-button" class="health-button" type="button" hidden>SIGN OUT</button>
+        </div>
+      </header>
+
+      <section class="hero">
+        <div class="eyebrow">PRODUCTS API / 01</div>
+        <h1>Test <em>CRUD</em><br />against your backend.</h1>
+        <p class="intro">Giao diện giúp bạn kiểm tra nhanh các endpoint GET, POST, PUT, DELETE của backend mới. Mọi request sẽ được truyền qua gateway local để tương tác với BE tại http://34.143.183.160:3000.</p>
+      </section>
+
+      <section class="workspace" aria-label="Products CRUD console">
+        <div class="request-panel">
+          <div class="panel-heading">
+            <div><span class="section-label">REQUEST</span><h2>Products API</h2></div>
+            <button class="health-button" id="health-check" type="button">CHECK HEALTH</button>
+          </div>
+
+          <div class="crud-stack">
+            <div class="crud-card">
+              <div class="card-head">
+                <h3>List all products</h3>
+                <span class="method-badge">GET</span>
+              </div>
+              <button id="load-products" class="primary-button" type="button">GET /api/products</button>
+            </div>
+
+            <form id="get-product-form" class="crud-card">
+              <div class="card-head">
+                <h3>Get product by ID</h3>
+                <span class="method-badge">GET</span>
+              </div>
+              <label for="product-id-read">Product ID</label>
+              <input id="product-id-read" name="productId" type="number" min="1" placeholder="1" />
+              <button class="primary-button" type="submit">GET /api/products/:id</button>
+            </form>
+
+            <form id="create-product-form" class="crud-card">
+              <div class="card-head">
+                <h3>Create product</h3>
+                <span class="method-badge">POST</span>
+              </div>
+              <div class="field-grid">
+                <div>
+                  <label for="create-name">Name</label>
+                  <input id="create-name" name="name" type="text" placeholder="Áo thun mới" required />
+                </div>
+                <div>
+                  <label for="create-price">Price</label>
+                  <input id="create-price" name="price" type="number" min="0" placeholder="199000" required />
+                </div>
+                <div>
+                  <label for="create-stock">Stock</label>
+                  <input id="create-stock" name="stock" type="number" min="0" placeholder="10" required />
+                </div>
+                <div class="full-width">
+                  <label for="create-description">Description</label>
+                  <input id="create-description" name="description" type="text" placeholder="Mô tả sản phẩm" />
+                </div>
+              </div>
+              <button class="primary-button" type="submit">POST /api/products</button>
+            </form>
+
+            <form id="update-product-form" class="crud-card">
+              <div class="card-head">
+                <h3>Update product</h3>
+                <span class="method-badge">PUT</span>
+              </div>
+              <div class="field-grid">
+                <div>
+                  <label for="update-id">Product ID</label>
+                  <input id="update-id" name="id" type="number" min="1" placeholder="1" required />
+                </div>
+                <div>
+                  <label for="update-name">Name</label>
+                  <input id="update-name" name="name" type="text" placeholder="Tên mới" />
+                </div>
+                <div>
+                  <label for="update-price">Price</label>
+                  <input id="update-price" name="price" type="number" min="0" placeholder="250000" />
+                </div>
+                <div>
+                  <label for="update-stock">Stock</label>
+                  <input id="update-stock" name="stock" type="number" min="0" placeholder="15" />
+                </div>
+                <div class="full-width">
+                  <label for="update-description">Description</label>
+                  <input id="update-description" name="description" type="text" placeholder="Mô tả mới" />
+                </div>
+              </div>
+              <button class="primary-button" type="submit">PUT /api/products/:id</button>
+            </form>
+
+            <form id="delete-product-form" class="crud-card">
+              <div class="card-head">
+                <h3>Delete product</h3>
+                <span class="method-badge danger">DELETE</span>
+              </div>
+              <label for="delete-id">Product ID</label>
+              <input id="delete-id" name="productId" type="number" min="1" placeholder="1" />
+              <button class="danger-button" type="submit">DELETE /api/products/:id</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="response-panel">
+          <div class="panel-heading response-heading">
+            <div><span class="section-label">RESPONSE</span><h2 id="response-title">Waiting for action</h2></div>
+            <span id="status-badge" class="status-badge idle">IDLE</span>
+          </div>
+          <div id="response-meta" class="response-meta"><span>STATUS <b>--</b></span><span>TIME <b>--</b></span><span>TYPE <b>--</b></span></div>
+          <pre id="response-body" class="response-body"><code>// Your response will appear here
+// Choose an action from the left panel to begin testing the CRUD API.</code></pre>
+        </div>
+      </section>
+
+      <footer><span>BACKEND / GATEWAY / CRUD</span><span>BUILT FOR FAST API TESTING</span></footer>
+    </main>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
