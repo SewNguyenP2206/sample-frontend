@@ -136,7 +136,7 @@ pipeline {
       echo "❌ Pipeline thất bại tại build #${env.BUILD_NUMBER} (${env.GIT_SHA})"
     }
     always {
-      cleanWs()
+      deleteDir()
     }
   }
 }
