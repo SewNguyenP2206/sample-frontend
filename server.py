@@ -126,4 +126,3 @@ class GatewayHandler(http.server.SimpleHTTPRequestHandler):
 
 if __name__ == "__main__":
     http.server.ThreadingHTTPServer(("0.0.0.0", PORT), GatewayHandler).serve_forever()
-#test
