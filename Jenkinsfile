@@ -114,11 +114,15 @@ pipeline {
               git config user.email "${env.GIT_USER_EMAIL}"
               git config user.name "${env.GIT_USER_NAME}"
               git add ${env.MANIFESTS_VALUES}
+              set +e
               git diff --cached --exit-code || (
                 git commit -m "chore(frontend): deploy \${IMAGE_TAG} from build #${env.BUILD_NUMBER} [skip ci]" &&
                 git push https://\${GH_USER}:\${GH_TOKEN}@${env.MANIFESTS_REPO} main
               )
+              RET=\$?
+              set -e
               cd .. && rm -rf manifests
+              exit \$RET
             """
           }
         }
