@@ -6,6 +6,14 @@ pipeline {
         kind: Pod
         spec:
           containers:
+          - name: jnlp
+            resources:
+              limits:
+                cpu: "500m"
+                memory: "512Mi"
+              requests:
+                cpu: "200m"
+                memory: "256Mi"
           - name: kaniko
             image: gcr.io/kaniko-project/executor:debug
             command:
