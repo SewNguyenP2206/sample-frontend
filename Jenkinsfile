@@ -121,6 +121,7 @@ pipeline {
                 git commit -m "chore(frontend): deploy \${IMAGE_TAG} from build #${env.BUILD_NUMBER} [skip ci]" &&
                 git push https://\${GH_USER}:\${GH_TOKEN}@${env.MANIFESTS_REPO} main
               )
+              cd .. && rm -rf manifests
             """
           }
         }
