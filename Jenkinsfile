@@ -46,7 +46,7 @@ pipeline {
           volumes:
           - name: docker-config
             secret:
-              secretName: harbor-creds-dockerconfig
+              secretName: dockerhub-creds-dockerconfig
               items:
               - key: .dockerconfigjson
                 path: config.json
@@ -55,8 +55,8 @@ pipeline {
   }
 
   environment {
-    HARBOR_REGISTRY  = 'harbor-core.harbor.svc.cluster.local'
-    IMAGE_NAME       = 'library/sample-frontend'
+    DOCKER_REGISTRY  = 'index.docker.io'
+    IMAGE_NAME       = 'sewnguyen/sample-frontend'
     MANIFESTS_REPO   = 'github.com/SewNguyenP2206/manifests-sample-frontend.git'
     MANIFESTS_VALUES = 'apps/sample-frontend/values.yaml'
     GIT_USER_EMAIL   = 'jenkins@enterprise.local'
@@ -84,10 +84,7 @@ pipeline {
             /kaniko/executor \\
               --dockerfile=Dockerfile \\
               --context=\$(pwd) \\
-              --destination=${env.HARBOR_REGISTRY}/${env.IMAGE_NAME}:${env.IMAGE_TAG} \\
-              --insecure \\
-              --insecure-pull \\
-              --skip-tls-verify
+              --destination=${env.IMAGE_NAME}:${env.IMAGE_TAG}
           """
         }
       }
