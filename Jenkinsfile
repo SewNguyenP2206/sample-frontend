@@ -12,6 +12,13 @@ pipeline {
             - sleep
             args:
             - 9999999
+            resources:
+              limits:
+                cpu: "1"
+                memory: "1Gi"
+              requests:
+                cpu: "500m"
+                memory: "512Mi"
             volumeMounts:
             - name: docker-config
               mountPath: /kaniko/.docker
