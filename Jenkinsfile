@@ -77,6 +77,28 @@ pipeline {
       }
     }
 
+    stage('Validate GitHub credential') {
+      steps {
+        container('git') {
+          script {
+            try {
+              withCredentials([usernamePassword(
+                credentialsId: 'github-credentials',
+                usernameVariable: 'GH_USER',
+                passwordVariable: 'GH_TOKEN'
+              )]) {
+                if (!env.GH_USER?.trim() || !env.GH_TOKEN?.trim()) {
+                  error('GitHub credential fields must not be empty.')
+                }
+              }
+            } catch (Exception ignored) {
+              error("Missing or invalid Jenkins credential 'github-credentials'. In Manage Jenkins > Credentials, check for duplicate IDs in global, folder, and job credentials. Add or correct a Username with password credential available to this job: ID github-credentials, Username SewNguyenP2206, Password a GitHub PAT with no spaces. Then rebuild.")
+            }
+          }
+        }
+      }
+    }
+
     stage('Build & Push') {
       steps {
         container('kaniko') {
